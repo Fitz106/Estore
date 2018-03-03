@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping >
+	<!-- 定义Product实体 -->
+	<class name="com.estore.domain.Product" table="products" >
+		<!-- 定义主键及其生成策略 -->
+		<id name="id" column="id" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<!-- 定义用户名字段 -->
+		<property name="name" unique="true" not-null="false"	length="100" column="name"/>
+		<!-- 定义密码字段 -->
+		<property name="price" not-null="false" length="40" column="price" />
+		<!-- 定义昵称字段 -->
+		<property name="category" not-null="false" length="100" column="category"></property>
+		<!-- 定义email字段 -->
+		<property name="pnum" not-null="false" length="11"  column="pnum"></property>
+		<!-- 定义role字段 -->
+		<property name="imgurl"  not-null="false"	length="100" column="imgurl"/>
+		<!-- 定义激活码字段 -->
+		<property name="description" not-null="false" length="255" column="description"></property>
+
+	</class>
+</hibernate-mapping>
+

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	
+	<!-- Hibernate的相关信息 -->
+	<!-- 定义数据源Bean，使用C3P0数据源实现 -->
+	<!-- 并设置连接数据库的驱动、URL、用户名、密码，
+	连接池最大连接数、最小连接数、初始连接数等参数  -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name = "driverClass" value="com.mysql.jdbc.Driver"/>
+		<property name = "jdbcUrl" value="jdbc:mysql://localhost:3306/estoresystem"/>
+		<property name = "user" value="root"/>
+		<property name = "password" value="1234"/>
+		<property name = "maxPoolSize" value="200"/>
+		<property name = "minPoolSize" value="2"/>
+		<property name = "initialPoolSize" value="2"/>
+		<property name = "maxIdleTime" value="20"/>
+	</bean>
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<!-- 注入连接池 -->
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 配置Hibernate的其他的属性 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+		<!-- 配置Hibernate的映射文件 -->
+		<property name="mappingResources">
+			<list>
+				<value>com/estore/domain/user.hbm.xml</value>
+				<value>com/estore/domain/order.hbm.xml</value>
+				<value>com/estore/domain/product.hbm.xml</value>
+				<value>com/estore/domain/orderitem.hbm.xml</value>
+			</list>
+		</property>
+		
+		<!-- annotatedClasses属性用于列出全部持久化类 -->
+		<property name="annotatedClasses">
+			<list>
+				<!-- 以下用来列出Hibernate的持久化类 -->
+				<value>com.estore.domain.Order</value>
+				<value>com.estore.domain.User</value>
+				<value>com.estore.domain.OrderItem</value>
+				<value>com.estore.domain.Product</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 配置hibernateTemplate 相当于jdbc  -->  
+	<bean id="hibernateTemplate"  class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- 事务管理: -->
+	<!-- 事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="dataSource" ref="dataSource" /> 
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<!-- 开启注解事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- Action的配置 ===========================-->
+	
+	<!-- 用户模块的Action -->
+	<bean id="userAction" class="com.estore.action.UserAction" scope="prototype">
+		<!-- 注入Service -->
+		<property name="userService" ref="userService"/>
+	</bean>
+	
+	<!-- 商品模块的Action -->
+	<bean id="productAction" class="com.estore.action.ProductAction" scope="prototype">
+		<property name="productService" ref="productService"/>
+		<property name="userService" ref="userService"/>
+	</bean>
+	
+	<!-- 配置OrderAction -->
+	<bean id="orderAction" class="com.estore.action.OrderAction" scope="prototype">
+		<property name="orderService" ref="orderService"/>
+	</bean>
+		<!-- 配置CartAction -->
+	<bean id="cartAction" class="com.estore.action.CartAction" scope="prototype">
+		<property name="productService" ref="productService"/>
+	</bean>
+	
+
+	
+	
+	<!-- Service的配置  ===========================-->
+	<bean id="userService" class="com.estore.service.UserServiceImpl">
+		<property name="userDAO" ref="userDao"/>
+	</bean>
+	
+	<bean id="productService" class="com.estore.service.ProductServiceImpl">
+		<property name="productDAO" ref="productDao"/>
+		<property name="userDAO" ref="userDao"/>
+	</bean>
+	
+	<bean id="orderService" class="com.estore.service.OrderServiceImpl">
+		<property name="orderDAO" ref="orderDao"/>
+		<property name="orderitemDAO" ref="orderitemDao"/>
+		<property name="productDAO" ref="productDao"/>
+	</bean>
+	
+
+	
+	<!-- Dao的配置  ===========================-->
+	<bean id="userDao" class="com.estore.dao.impl.UserDaoHibernate5">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="orderDao" class="com.estore.dao.impl.OrderDaoHibernate5">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>	
+	
+	<bean id="productDao" class="com.estore.dao.impl.ProductDaoHibernate5">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+	<bean id="orderitemDao" class="com.estore.dao.impl.OrderItemDaoHibernate5">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	
+
+	
+</beans>

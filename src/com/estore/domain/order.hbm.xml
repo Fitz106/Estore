@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping >
+	<!-- 定义Order实体 -->
+	<class name="com.estore.domain.Order" table="orders" >
+		<!-- 定义主键及其生成策略 -->
+		<id name="id" column="id" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<!-- 定义用户名字段 -->
+		<property name="money" unique="true" not-null="true" column="money"/>
+		<!-- 定义密码字段 -->
+		<property name="receiverinfo" not-null="true" length="255" column="receiverinfo" />
+		<!-- 定义昵称字段 -->
+		<property name="paystate" not-null="true" column="paystate"></property>
+		<!-- 定义email字段 -->
+		<property name="ordertime" not-null="false"  column="ordertime"></property>
+		<property name="user_id" not-null="false"  column="user_id"></property>
+	</class>
+</hibernate-mapping>
+

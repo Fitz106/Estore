@@ -1,0 +1,17 @@
+#MyEclipse Hibernate Properties
+#Tue Feb 13 01:58:21 CST 2018
+genVersionTag=false
+sessionFactoryName=com.jyp.domain.HibernateSessionFactory
+genAnnotations=false
+configFile=/BookEstore/src/hibernate.cfg.xml
+reStrategyClass=
+sessionFactoryId=
+profile=
+detectM2M=false
+genBasicCompId=false
+keyGenerator=
+createConfigFile=false
+basePersistenceClass=
+detectO2O=false
+useJavaTypes=true
+reSettingsFile=

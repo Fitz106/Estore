@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping >
+	<!-- 定义User实体 -->
+	<class name="com.estore.domain.User" table="users" >
+		<!-- 定义主键及其生成策略 -->
+		<id name="id" column="id" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<!-- 定义用户名字段 -->
+		<property name="username" unique="false" not-null="true"	length="40" column="username"/>
+		<!-- 定义密码字段 -->
+		<property name="password" not-null="false" length="100" column="password" />
+		<!-- 定义昵称字段 -->
+		<property name="nickname" not-null="false" length="100" column="nickname"></property>
+		<!-- 定义email字段 -->
+		<property name="email" not-null="false" length="100"  column="email"></property>
+		<!-- 定义role字段 -->
+		<property name="role" not-null="false"	length="100" column="role"/>
+		<!-- 定义role字段 -->
+		<property name="salt" not-null="false"	length="100" column="salt"/>
+		
+		<property name="ticket" not-null="false" length="100"  column="ticket"></property>
+		<!-- 定义role字段 -->
+		<property name="status" not-null="false"	length="100" column="status"/>
+		<!-- 定义role字段 -->
+		<property name="expired" not-null="false"	length="100" column="expired"/>
+		<!-- 定义激活码字段 -->
+		<property name="activecode" not-null="false" length="100" column="activecode"></property>
+		<!-- 定义激活状态字段 -->
+		<property name="state" not-null="false" length="100" column="state"></property>
+		<!-- 定义更新时间字段 -->
+		<property name="updatetime" not-null="true" column="updatetime"></property>
+
+	</class>
+</hibernate-mapping>
+

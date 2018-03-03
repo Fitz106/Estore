@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping >
+	<!-- 定义OrderItem实体 -->
+	<class name="com.estore.domain.OrderItem" table="orderitem" >
+		<!-- 定义主键及其生成策略 -->
+		<id name="id" column="id" type="java.lang.Integer">
+			<generator class="increment" />
+		</id>
+		<!-- 定义order_id字段 -->
+		<property name="buynum" not-null="false"  column="buynum"></property>
+		<property name="order_id" not-null="false"  column="order_id"></property>
+		<property name="product_id" not-null="false"  column="product_id"></property>
+	</class>
+</hibernate-mapping>
+
